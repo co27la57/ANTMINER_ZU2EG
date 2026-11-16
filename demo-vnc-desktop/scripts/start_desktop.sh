@@ -18,6 +18,26 @@ LOG=/mnt/sd2/desktop.log
 echo "" >> "$LOG"
 echo "==================== start_desktop: $(date) ====================" >> "$LOG"
 
+# --- stop mining FIRST (must be persistent: /etc/ is restored from flash on
+#     every boot by the Bitmain firmware, so we kill the processes here each
+#     time instead of relying on the disabled init scripts) ---------------
+for d in /proc/[0-9]*; do
+    p=${d##*/}; [ -r "$d/cmdline" ] || continue
+    cmd=$(tr '\0' ' ' < "$d/cmdline" 2>/dev/null)
+    case "$cmd" in
+        */sbin/monitorcg*|*monitorcg*|*cgminer*|*SCREEN*cgminer*)
+            kill -9 "$p" 2>/dev/null && echo "  killed mining pid $p" >> "$LOG"
+            ;;
+    esac
+done
+# ASIC power off (GPIO404 = POWER ASIC per the stock cgminer.sh comments)
+[ -d /sys/class/gpio/gpio404 ] && echo 0 > /sys/class/gpio/gpio404/value 2>/dev/null
+[ -d /sys/class/gpio/gpio403 ] && echo 0 > /sys/class/gpio/gpio403/value 2>/dev/null
+sleep 2
+# The inittab respawn line brings monitorcg back within 20s, but repeated
+# kills here on each start_desktop run plus the disabled rc links keep it
+# from doing useful work; a hard reboot with the modified inittab is cleaner.
+
 # --- mount the SD card (the device node number changes after a re-plug) ---
 rm -f /dev/mmcblk0 /dev/mmcblk0p1 /dev/mmcblk0p2 2>/dev/null
 grep -E 'mmcblk' /proc/partitions | while read MAJ MIN BLKS NAME; do
