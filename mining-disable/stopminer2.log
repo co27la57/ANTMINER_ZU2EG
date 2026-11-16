@@ -1,0 +1,56 @@
+########## 1. find ALL mining-related processes with parent chain ##########
+  PID=4892 PPID=1
+    cmd : /bin/sh /sbin/monitorcg 
+    parent: init [5]               
+
+########## 2. inittab / init config ##########
+id:5:initdefault:
+si::sysinit:/etc/init.d/rcS
+~~:S:wait:/sbin/sulogin
+l0:0:wait:/etc/init.d/rc 0
+l1:1:wait:/etc/init.d/rc 1
+l2:2:wait:/etc/init.d/rc 2
+l3:3:wait:/etc/init.d/rc 3
+l4:4:wait:/etc/init.d/rc 4
+l5:5:wait:/etc/init.d/rc 5
+l6:6:wait:/etc/init.d/rc 6
+z6:6:respawn:/sbin/sulogin
+S:2345:respawn:/sbin/getty 115200 ttyPS0
+1:2345:respawn:/sbin/getty 38400 tty1
+dcdc:2345:respawn:/sbin/monitorcg
+--- /etc/init.d/ mining scripts ---
+-rwxr-xr-x    1 root     root          4551 Jan 16  2021 cgminer.sh.bk
+-rwxr-xr-x    1 root     root          6406 Jan 16  2021 cgminer.sh.disabled
+-rwxr-xr-x    1 root     root           646 Jan 16  2021 monitor-ipsig.sh
+-rwxr-xr-x    1 root     root          1639 Jan 16  2021 monitor-recobtn
+--- /etc/rcS.d/ ---
+lrwxrwxrwx    1 root     root            26 Jan 16  2021 S100monitor-ipsig.sh -> ../init.d/monitor-ipsig.sh
+lrwxrwxrwx    1 root     root            20 Jan 16  2021 S70cgminer.sh.disabled -> ../init.d/cgminer.sh
+lrwxrwxrwx    1 root     root            25 Jan 16  2021 S70monitor-recobtn -> ../init.d/monitor-recobtn
+
+########## 3. kill ALL of them repeatedly (3 rounds) ##########
+--- round 1 ---
+  kill -9 4892 : /bin/sh /sbin/monitorcg 
+--- round 2 ---
+  kill -9 5629 : /bin/sh /sbin/monitorcg 
+--- round 3 ---
+  kill -9 5785 : /bin/sh /sbin/monitorcg 
+
+########## 4. rename monitorcg itself (reversible) ##########
+  /sbin/monitorcg -> .disabled
+  monitor-recobtn -> .disabled
+
+########## 5. disable remaining rc links ##########
+  /etc/rcS.d/S100monitor-ipsig.sh -> .disabled
+  /etc/rcS.d/S70monitor-recobtn -> .disabled
+
+########## 6. FINAL verification (wait 25s to outlast watchdog timer) ##########
+  STILL RUNNING [5940] /bin/sh /sbin/monitorcg 
+--- GPIO state ---
+  gpio403 = 0
+  gpio404 = 0
+--- CPU load ---
+0.08 0.53 0.58 1/150 6170
+cpu  1122477 342 129786 13951308 68512 0 3825 0 0 0
+cpu  1122479 342 129787 13952508 68512 0 3825 0 0 0
+########## END ##########

@@ -1,0 +1,221 @@
+########## 1. monitorcg script (what it does) ##########
+#!/bin/sh
+#set -x
+check_inter="20s"
+while true; do
+	sleep $check_inter
+	#date
+	a="$(ps | grep cgminer | grep -v 'grep cgminer')"
+	if [ -z "$a" ] ; then
+		/etc/init.d/cgminer.sh restart
+	fi
+done
+
+########## 2. cgminer.sh startup script ##########
+#!/bin/sh
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/bin/cgminer
+NAME=cgminer
+DESC="Cgminer daemon"
+
+set -e
+#set -x
+test -x "$DAEMON" || exit 0
+
+
+#echo 403 > /sys/class/gpio/export
+#echo out > /sys/class/gpio/gpio403/direction
+#echo 1 > /sys/class/gpio/gpio403/value
+#echo 0 > /sys/class/gpio/gpio403/value
+#sleep 1
+#echo 1 > /sys/class/gpio/gpio403/value
+
+
+if [ ! -d /sys/class/gpio/gpio403 ]; then
+    echo 403 > /sys/class/gpio/export
+    echo out > /sys/class/gpio/gpio403/direction
+    echo 1 > /sys/class/gpio/gpio403/value
+fi
+
+# Zynq7000 DASH miner
+export HAL_CONFIG_PATH=/etc
+# RED LED: GPIO411
+if [ ! -d /sys/class/gpio/gpio411 ]; then
+    echo 411 > /sys/class/gpio/export
+    echo out > /sys/class/gpio/gpio411/direction
+    echo 1 > /sys/class/gpio/gpio411/value
+fi
+
+# GREEN LED: GPIO408
+if [ ! -d /sys/class/gpio/gpio408 ]; then
+    echo 408 > /sys/class/gpio/export
+    echo out > /sys/class/gpio/gpio408/direction
+    echo 1 > /sys/class/gpio/gpio408/value
+fi
+
+# POWER ASIC: GPIO404
+if [ ! -d /sys/class/gpio/gpio404 ]; then
+    echo 404 > /sys/class/gpio/export
+    echo out > /sys/class/gpio/gpio404/direction
+    echo 1 > /sys/class/gpio/gpio404/value
+fi
+
+# LCD: D0 : CS
+#if [ ! -d /sys/class/gpio/gpio954 ]; then
+#    echo 954 > /sys/class/gpio/export
+#    echo out > /sys/class/gpio/gpio954/direction
+#    echo 0 > /sys/class/gpio/gpio954/value
+#fi
+
+# LCD: D0 : SID
+#if [ ! -d /sys/class/gpio/gpio955 ]; then
+#    echo 955 > /sys/class/gpio/export
+#    echo out > /sys/class/gpio/gpio955/direction
+#    echo 0 > /sys/class/gpio/gpio955/value
+#fi
+
+# LCD: D0 : SCLK
+#if [ ! -d /sys/class/gpio/gpio958 ]; then
+#    echo 958 > /sys/class/gpio/export
+#    echo out > /sys/class/gpio/gpio958/direction
+#    echo 0 > /sys/class/gpio/gpio958/value
+#fi
+
+# LCD: D0 : RESET
+#if [ ! -d /sys/class/gpio/gpio959 ]; then
+#    echo 959 > /sys/class/gpio/export
+#    echo out > /sys/class/gpio/gpio959/direction
+#    echo 0 > /sys/class/gpio/gpio959/value
+#fi
+
+do_start() {
+        echo 0 > /sys/class/gpio/gpio404/value
+        sleep 5s
+        echo 1 > /sys/class/gpio/gpio404/value
+        echo 1 > /sys/class/gpio/gpio404/value
+        sleep 10s
+
+
+        echo 0 > /sys/class/gpio/gpio403/value
+        sleep 10s
+        echo 1 > /sys/class/gpio/gpio403/value
+	echo 1 > /sys/class/gpio/gpio403/value
+	sleep 10s
+	
+        NIC=eth0
+	MAC=`LANG=C ifconfig $NIC | awk '/HWaddr/{ print $5 }'`
+	#echo $MAC | tr '[a-z]' '[A-Z]'
+	upmac=`echo $MAC | tr '[a-z]' '[A-Z]'`
+	#echo $upmac
+	curti=`date "+%Y-%m-%d %H:%M:%S"`
+	#echo $curti
+
+	OUTPUT=/tmp/pic_mac
+
+########## 3. /tmp/fanstatus and miner logs ##########
+-rw-r--r--    1 root     root            43 Nov 16 04:27 /tmp/fanstatus
+--- fanstatus ---
+0 fans are mounted! please check the fans!
+--- messages last 40 lines ---
+Nov 16 14:58:53 (none) authpriv.info dropbear[4115]: Exit (root): Exited normally
+Nov 16 14:59:19 (none) authpriv.info dropbear[4217]: Child connection from 172.25.87.141:14434
+Nov 16 14:59:24 (none) authpriv.err dropbear[4217]: PAM unable to dlopen(/lib/security/pam_systemd.so): /lib/security/pam_systemd.so: cannot open shared object file: No such file or directory
+Nov 16 14:59:24 (none) authpriv.err dropbear[4217]: PAM adding faulty module: /lib/security/pam_systemd.so
+Nov 16 14:59:24 (none) authpriv.notice dropbear[4217]: PAM password auth succeeded for 'root' from 172.25.87.141:14434
+Nov 16 14:59:25 (none) authpriv.info dropbear[4217]: Exit (root): Exited normally
+Nov 16 14:59:26 (none) authpriv.info dropbear[4236]: Child connection from 172.25.87.141:14435
+Nov 16 14:59:31 (none) authpriv.err dropbear[4236]: PAM unable to dlopen(/lib/security/pam_systemd.so): /lib/security/pam_systemd.so: cannot open shared object file: No such file or directory
+Nov 16 14:59:31 (none) authpriv.err dropbear[4236]: PAM adding faulty module: /lib/security/pam_systemd.so
+Nov 16 14:59:31 (none) authpriv.notice dropbear[4236]: PAM password auth succeeded for 'root' from 172.25.87.141:14435
+Nov 16 14:59:32 (none) authpriv.info dropbear[4236]: Exit (root): Exited normally
+Nov 16 14:59:33 (none) authpriv.info dropbear[4277]: Child connection from 172.25.87.141:8835
+Nov 16 14:59:38 (none) authpriv.err dropbear[4277]: PAM unable to dlopen(/lib/security/pam_systemd.so): /lib/security/pam_systemd.so: cannot open shared object file: No such file or directory
+Nov 16 14:59:38 (none) authpriv.err dropbear[4277]: PAM adding faulty module: /lib/security/pam_systemd.so
+Nov 16 14:59:38 (none) authpriv.notice dropbear[4277]: PAM password auth succeeded for 'root' from 172.25.87.141:8835
+Nov 16 14:59:38 (none) authpriv.info dropbear[4277]: Exit (root): Exited normally
+Nov 16 14:59:59 (none) authpriv.info dropbear[4349]: Child connection from 172.25.87.141:8855
+Nov 16 15:00:04 (none) authpriv.err dropbear[4349]: PAM unable to dlopen(/lib/security/pam_systemd.so): /lib/security/pam_systemd.so: cannot open shared object file: No such file or directory
+Nov 16 15:00:04 (none) authpriv.err dropbear[4349]: PAM adding faulty module: /lib/security/pam_systemd.so
+Nov 16 15:00:04 (none) authpriv.notice dropbear[4349]: PAM password auth succeeded for 'root' from 172.25.87.141:8855
+Nov 16 15:00:06 (none) authpriv.info dropbear[4349]: Exit (root): Exited normally
+Nov 16 15:00:06 (none) authpriv.info dropbear[4366]: Child connection from 172.25.87.141:9155
+Nov 16 15:00:11 (none) authpriv.err dropbear[4366]: PAM unable to dlopen(/lib/security/pam_systemd.so): /lib/security/pam_systemd.so: cannot open shared object file: No such file or directory
+Nov 16 15:00:11 (none) authpriv.err dropbear[4366]: PAM adding faulty module: /lib/security/pam_systemd.so
+Nov 16 15:00:11 (none) authpriv.notice dropbear[4366]: PAM password auth succeeded for 'root' from 172.25.87.141:9155
+Nov 16 15:00:12 (none) authpriv.info dropbear[4366]: Exit (root): Exited normally
+Nov 16 15:00:12 (none) authpriv.info dropbear[4400]: Child connection from 172.25.87.141:9157
+Nov 16 15:00:18 (none) authpriv.err dropbear[4400]: PAM unable to dlopen(/lib/security/pam_systemd.so): /lib/security/pam_systemd.so: cannot open shared object file: No such file or directory
+Nov 16 15:00:18 (none) authpriv.err dropbear[4400]: PAM adding faulty module: /lib/security/pam_systemd.so
+Nov 16 15:00:18 (none) authpriv.notice dropbear[4400]: PAM password auth succeeded for 'root' from 172.25.87.141:9157
+Nov 16 15:00:18 (none) authpriv.info dropbear[4400]: Exit (root): Exited normally
+Nov 16 15:00:42 (none) authpriv.info dropbear[4480]: Child connection from 172.25.87.141:14823
+Nov 16 15:00:48 (none) authpriv.err dropbear[4480]: PAM unable to dlopen(/lib/security/pam_systemd.so): /lib/security/pam_systemd.so: cannot open shared object file: No such file or directory
+Nov 16 15:00:48 (none) authpriv.err dropbear[4480]: PAM adding faulty module: /lib/security/pam_systemd.so
+Nov 16 15:00:48 (none) authpriv.notice dropbear[4480]: PAM password auth succeeded for 'root' from 172.25.87.141:14823
+Nov 16 15:00:49 (none) authpriv.info dropbear[4480]: Exit (root): Exited normally
+Nov 16 15:00:49 (none) authpriv.info dropbear[4501]: Child connection from 172.25.87.141:14825
+Nov 16 15:00:54 (none) authpriv.err dropbear[4501]: PAM unable to dlopen(/lib/security/pam_systemd.so): /lib/security/pam_systemd.so: cannot open shared object file: No such file or directory
+Nov 16 15:00:54 (none) authpriv.err dropbear[4501]: PAM adding faulty module: /lib/security/pam_systemd.so
+Nov 16 15:00:55 (none) authpriv.notice dropbear[4501]: PAM password auth succeeded for 'root' from 172.25.87.141:14825
+
+########## 4. process state detail for cgminer (1903) ##########
+--- pid 1902 ---
+Name:	screen
+State:	S (sleeping)
+VmRSS:	    1228 kB
+Threads:	1
+voluntary_ctxt_switches:	2
+nonvoluntary_ctxt_switches:	0
+wchan: poll_schedule_timeout
+fd:
+dr-x------    2 root     root             0 Nov 16 15:00 .
+dr-xr-xr-x    8 root     root             0 Nov 16 14:29 ..
+lr-x------    1 root     root            64 Nov 16 15:00 0 -> /dev/null
+l-wx------    1 root     root            64 Nov 16 15:00 1 -> /dev/null
+l-wx------    1 root     root            64 Nov 16 15:00 2 -> /dev/null
+lrwx------    1 root     root            64 Nov 16 15:00 3 -> socket:[3198]
+lrwx------    1 root     root            64 Nov 16 15:00 4 -> /dev/ptmx
+--- pid 1903 ---
+Name:	cgminer
+State:	S (sleeping)
+VmRSS:	    1152 kB
+Threads:	1
+voluntary_ctxt_switches:	22814
+nonvoluntary_ctxt_switches:	1
+wchan: hrtimer_nanosleep
+fd:
+dr-x------    2 root     root             0 Nov 16 15:00 .
+dr-xr-xr-x    8 root     root             0 Nov 16 14:29 ..
+lrwx------    1 root     root            64 Nov 16 15:00 0 -> /dev/pts/0
+lrwx------    1 root     root            64 Nov 16 15:00 1 -> /dev/pts/0
+lrwx------    1 root     root            64 Nov 16 15:00 2 -> /dev/pts/0
+lrwx------    1 root     root            64 Nov 16 15:00 3 -> socket:[1208]
+lr-x------    1 root     root            64 Nov 16 15:00 4 -> /usr/bin/compile_time
+lr-x------    1 root     root            64 Nov 16 15:00 5 -> /dev/urandom
+lrwx------    1 root     root            64 Nov 16 15:00 6 -> /dev/ttyPS1
+lrwx------    1 root     root            64 Nov 16 15:00 7 -> /dev/axi_fpga_dev
+--- pid 1918 ---
+Name:	monitorcg
+State:	S (sleeping)
+VmRSS:	    1176 kB
+Threads:	1
+voluntary_ctxt_switches:	6835
+nonvoluntary_ctxt_switches:	1
+wchan: do_wait
+fd:
+dr-x------    2 root     root             0 Nov 16 15:00 .
+dr-xr-xr-x    8 root     root             0 Nov 16 14:29 ..
+lrwx------    1 root     root            64 Nov 16 15:00 0 -> /dev/console
+lrwx------    1 root     root            64 Nov 16 15:00 1 -> /dev/console
+lr-x------    1 root     root            64 Nov 16 15:00 10 -> /sbin/monitorcg
+lrwx------    1 root     root            64 Nov 16 15:00 2 -> /dev/console
+
+########## 5. network to pool 192.168.100.102:8028 ##########
+--- route ---
+Iface	Destination	Gateway 	Flags	RefCnt	Use	Metric	Mask		MTU	Window	IRTT                                                       
+eth0	00000000	FE5719AC	0003	0	0	0	00000000	0	0	0                                                                               
+eth0	005019AC	00000000	0001	0	0	0	00F8FFFF	0	0	0                                                                               
+--- any established connection to :8028 (1F5C) ---
+  none
+########## END ##########

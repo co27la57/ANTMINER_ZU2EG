@@ -1,0 +1,12 @@
+[start] Mon Nov 16 03:48:37 UTC 2026
+[step] creating tar in /dev/shm
+tar: can't open '/dev/shm/antm_rootfs.tar': No such file or directory
+tar rc=1
+ls: /dev/shm/: No such file or directory
+[step] verifying archive
+tar: can't open '/dev/shm/antm_rootfs.tar': No such file or directory
+0
+[step] sha256
+sha256sum: can't open '/dev/shm/antm_rootfs.tar': No such file or directory
+[done] Mon Nov 16 03:48:37 UTC 2026
+=== DONE ===

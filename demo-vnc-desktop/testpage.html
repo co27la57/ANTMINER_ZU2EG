@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Antminer E7 — Browser Test</title>
+<style>
+  body { background:#eef4fa; color:#123; font-family:sans-serif; margin:0; padding:24px; }
+  h1 { color:#0a5; border-bottom:3px solid #0a5; padding-bottom:8px; }
+  .card { background:#fff; border:2px solid #9bd; border-radius:8px; padding:16px; margin:16px 0; }
+  .ok { color:#0a0; font-weight:bold; font-size:20px; }
+  table { border-collapse:collapse; width:100%; }
+  td,th { border:1px solid #9bd; padding:6px 10px; text-align:left; }
+  th { background:#dff; }
+  code { background:#eee; padding:2px 6px; }
+</style>
+</head>
+<body>
+<h1>Browser is working on Antminer E7!</h1>
+<div class="card">
+  <p class="ok">&#10003; HTML rendering OK</p>
+  <p class="ok">&#10003; CSS styling OK</p>
+  <p>&#10003; This page is served locally from the board itself.</p>
+</div>
+<div class="card">
+  <h2>Board information</h2>
+  <table>
+    <tr><th>SoC</th><td>Xilinx Zynq UltraScale+ MP (4&times; Cortex-A53)</td></tr>
+    <tr><th>Kernel</th><td>4.9.0 aarch64 (armhf compat chroot)</td></tr>
+    <tr><th>Browser</th><td>Dillo 3.0.5 (FLTK, X11)</td></tr>
+    <tr><th>Memory</th><td>481 MB total, no swap</td></tr>
+  </table>
+</div>
+<div class="card">
+  <h2>Why Dillo?</h2>
+  <p>Firefox / Chromium need 500MB+ RAM and would OOM on this 481MB board.
+     Dillo uses about 20MB and renders HTTP/HTTPS pages with images just fine.</p>
+  <p>Try <code>file:///root/www/index.html</code></p>
+</div>
+<hr>
+<p style="color:#678;font-size:12px">Rendered by Dillo inside the Debian armhf chroot on Xvfb :1, exported via VNC :5900.</p>
+</body>
+</html>

@@ -1,0 +1,27 @@
+--- busybox tar help (excerpt) ---
+head: invalid option -- '2'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+--- test: -X exclude file ---
+head: invalid option -- '1'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+rc=1
+--- test: plain list of ./etc works ---
+head: invalid option -- '5'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+-rw-r--r--    1 root     root       6502912 Nov 16 03:47 /tmp/t1.tar
+head: invalid option -- '1'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+rc=1
+=== DONE ===

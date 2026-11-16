@@ -1,0 +1,32 @@
+########## 1. comment out the respawn line in inittab ##########
+44:#dcdc:2345:respawn:/sbin/monitorcg  # DISABLED: mining watchdog
+
+########## 2. kill current respawn instances ##########
+  kill 5940 : /bin/sh /sbin/monitorcg 
+
+########## 3. tell init to reload inittab ##########
+  sent SIGHUP to init
+--- inittab after reload ---
+44:#dcdc:2345:respawn:/sbin/monitorcg  # DISABLED: mining watchdog
+
+########## 4. wait 30s, verify nothing respawns ##########
+  CLEAN - no mining processes after 30s + init reload
+
+########## 5. final state ##########
+--- GPIO ---
+  gpio403 = 0
+  gpio404 = 0
+--- load ---
+0.13 0.43 0.54 1/148 6642
+--- key processes still alive (desktop stack) ---
+  810 root      148m S    Xvfb :1 -screen 0 1280x800x24 -ac +extension GLX +ex
+  872 root     30916 S    x11vnc -display :1 -auth none -forever -shared -nopw
+  920 root      8244 S    /usr/lib/arm-linux-gnueabihf/xfce4/xfconf/xfconfd
+  979 root     41444 S    xfce4-panel
+  982 root     20736 S    {panel-6-systray} /usr/lib/arm-linux-gnueabihf/xfce4
+  984 root     22968 S    {panel-2-actions} /usr/lib/arm-linux-gnueabihf/xfce4
+ 1081 root     42752 S    /usr/bin/dillo -geometry 900x620+330+90 http://www.b
+ 1815 root      2276 S    /usr/sbin/dropbear -r /config/dropbear_rsa_host_key
+ 6264 root      2736 S    /usr/sbin/dropbear -r /config/dropbear_rsa_host_key
+ 7015 root      8232 S    /usr/lib/arm-linux-gnueabihf/xfce4/xfconf/xfconfd
+########## END ##########

@@ -1,0 +1,41 @@
+############ state check: Mon Nov 16 04:23:12 UTC 2026 ############
+--- uptime ---
+3199.44 12560.06
+--- /dev inventory ---
+console full initctl null ptmx pts random tty ttyS0 ttyS1 urandom zero 
+--- missing standard nodes? ---
+  OK   /dev/null
+  OK   /dev/zero
+  OK   /dev/full
+  OK   /dev/random
+  OK   /dev/urandom
+  OK   /dev/console
+  OK   /dev/tty
+  OK   /dev/ptmx
+--- mmc block nodes ---
+  no mmc nodes
+ 179        0    7864320 mmcblk0
+ 179        1     524288 mmcblk0p1
+ 179        2    5218304 mmcblk0p2
+--- sdhci host present? ---
+mmc0
+--- mounts ---
+/dev/root on / type ext4 (rw,relatime,block_validity,delalloc,barrier,user_xattr,acl)
+devtmpfs on /dev type devtmpfs (rw,relatime,size=108292k,nr_inodes=27073,mode=755)
+proc on /proc type proc (rw,relatime)
+sysfs on /sys type sysfs (rw,relatime)
+debugfs on /sys/kernel/debug type debugfs (rw,relatime)
+/dev/mtdblock7 on /config type jffs2 (rw,relatime)
+devpts on /dev/pts type devpts (rw,relatime,gid=5,mode=620,ptmxmode=000)
+/dev/mmcblk0p1 on /mnt/sd type vfat (rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
+/dev/mmcblk0p2 on /mnt/sd2 type ext4 (rw,relatime,data=ordered)
+--- dmesg: last mmc/sdhci lines ---
+[ 3185.186455] sdhci: Int enab: 0x02ff008b | Sig enab: 0x02ff008b
+[ 3185.192270] sdhci: AC12 err: 0x00000000 | Slot int: 0x00000000
+[ 3185.198086] sdhci: Caps:     0x31ecc881 | Caps_1:   0x00002007
+[ 3185.203901] sdhci: Cmd:      0x00000d1a | Max curr: 0x00000000
+[ 3185.209716] sdhci: Host ctl2: 0x00000000
+[ 3185.213624] sdhci: ADMA Err: 0x00000000 | ADMA Ptr: 0x000000000f040200
+[ 3185.220131] sdhci: ===========================================
+[ 3185.229032] mmcblk0: error -110 sending status command, aborting
+############ end ############

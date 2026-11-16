@@ -1,0 +1,90 @@
+############ A. busybox applet list (raw, reliable) ############
+count:
+164
+--- grep for our needs (use grep -F on file) ---
+  chroot: YES
+  mount: YES
+  umount: YES
+  su: YES
+  env: YES
+  tar: YES
+  gzip: YES
+  gunzip: YES
+  xz: NO
+  unxz: NO
+  awk: YES
+  sed: YES
+  grep: YES
+  cat: YES
+  ln: YES
+  cp: YES
+  mkdir: YES
+  chmod: YES
+  chown: YES
+  uname: YES
+--- applets containing 'root' or 'mount' ---
+chroot
+mount
+pivot_root
+switch_root
+umount
+############ B. why did the .deb download fail? ############
+--- verbose fetch of that URL ---
+curl rc=0
+--- response headers ---
+HTTP/1.1 404 Not Found
+Connection: keep-alive
+Content-Length: 300
+Server: Apache
+X-Content-Type-Options: nosniff
+X-Frame-Options: sameorigin
+Referrer-Policy: no-referrer
+X-Xss-Protection: 1
+Permissions-Policy: interest-cohort=()
+Content-Type: text/html; charset=iso-8859-1
+Backend: 4qpvL1tJyeV1P6Tmf0Lj8g--F_skroutz_debian_backend_mirrors_debian_org
+Via: 1.1 varnish, 1.1 varnish
+Accept-Ranges: bytes
+Age: 99
+Date: Mon, 16 Nov 2026 04:03:29 GMT
+X-Served-By: cache-ams-eham8680062-AMS, cache-fra-etou8220043-FRA
+X-Cache: MISS, HIT
+X-Cache-Hits: 0, 0
+X-Timer: S1794801809.234337,VS0,VE1
+
+--- file size ---
+-rw-r--r--    1 root     root           300 Nov 16 04:03 /tmp/test.deb
+--- first bytes (is it HTML?) ---
+0000000    <   !   D   O   C   T   Y   P   E       H   T   M   L       P
+0000020    U   B   L   I   C       "   -   /   /   W   3   C   /   /   D
+0000040    T   D       H   T   M   L       4   .   0   1   /   /   E   N
+0000060    "       "   h   t   t   p   :   /   /   w   w   w   .   w   3
+0000100    .   o   r   g   /   T   R   /   h   t   m   l   4   /   s   t
+0000120    r   i   c   t   .   d   t   d   "   >  \n   <   h   t   m   l
+--- content ---
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>404 Not Found</title>
+</head><body>
+<h1>Not Found</h1>
+<p>The requested URL was not found on this server.</p>
+<hr>
+<address>Apache Server at ftp.debian.org Port 80</address>
+</body></html>
+############ C. can we reach a known-good deb URL? ############
+--- check Packages index for armhf (buster) ---
+code=404 size=300
+-rw-r--r--    1 root     root           300 Nov 16 04:03 /tmp/Packages.gz
+--- check stretch ---
+stretch code=200
+--- check jessie ---
+jessie code=200
+--- aliyun mirror buster armhf ---
+aliyun code=404
+############ D. HTTP headers for a directory listing ############
+############ E. test a small definitely-existing deb (libc-bin style) ############
+code=200 size=2078114
+-rw-r--r--    1 root     root       2078114 Nov 16 04:04 /tmp/t2.deb
+0000000    !   <   a   r   c   h   >  \n   d   e   b   i   a   n   -   b
+0000020    i   n   a   r   y               1   5   3   0   0   0   8   8
+############ DONE ############

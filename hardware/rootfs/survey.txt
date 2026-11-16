@@ -1,0 +1,364 @@
+############ 1. OS & package manager ############
+VERSION="v2013.06"
+NAME="Angstrom"
+ID="angstrom"
+PRETTY_NAME="The Ångström Distribution"
+ANSI_COLOR="1;35"
+HOME_URL="http://www.angstrom-distribution.org"
+--- which pkg mgr ---
+  opkg       -
+  apt        -
+  apt-get    -
+  dpkg       -
+  rpm        -
+  yum        -
+  dnf        -
+  apk        -
+--- opkg dirs ---
+drwxr-xr-x    2 root     root          1024 Jan 16  2021 .
+drwxr-xr-x   24 root     root          3072 Jan  1  1970 ..
+-rwxr-xr-x    1 root     root           279 Jan 16  2021 arch.conf
+--- opkg sources (conf) ---
+arch all 1
+arch any 6
+arch noarch 11
+arch armv5hf-vfp 16
+arch armv5thf-vfp 21
+arch armv5ehf-vfp 26
+arch armv5tehf-vfp 31
+arch armv6hf-vfp 36
+arch armv6thf-vfp 41
+arch armv7ahf-vfp 46
+arch armv7at2hf-vfp 51
+arch armv7ahf-vfp-neon 56
+arch armv7at2hf-vfp-neon 61
+arch beaglebone 66
+--- installed pkg count ---
+96
+############ 2. X / graphics subsystem ############
+  Xorg       -
+  X          -
+  Xvfb       -
+  xinit      -
+  xdpyinfo   -
+  xrandr     -
+  fbset      -
+  xset       -
+  xauth      -
+  xkbcomp    -
+--- framebuffer devices ---
+  no /dev/fb*
+--- DRM devices ---
+  no /dev/dri
+--- /sys/class/graphics ---
+fbcon
+--- graphics/gpu modules ---
+drm
+drm_kms_helper
+fb
+xilinx_drm
+xilinx_drm_dp
+--- framebuffer console ---
+############ 3. VNC ############
+  x11vnc       -
+  Xvnc         -
+  vncserver    -
+  vncpasswd    -
+  tigervncserver -
+  Xtightvnc    -
+############ 4. desktop / WM ############
+  xfce4-session              -
+  xfce4-panel                -
+  xfdesktop                  -
+  xfwm4                      -
+  openbox                    -
+  fluxbox                    -
+  jwm                        -
+  matchbox-window-manager    -
+  twm                        -
+  lxde                       -
+  lxqt                       -
+  icewm                      -
+  metacity                   -
+  xterm                      -
+  matchbox-panel             -
+--- xsessions ---
+  none
+--- share dirs ---
+  none
+############ 5. network / download / scripting ############
+  wget       -
+  curl       -
+  tftp       -
+  nc         -
+  netcat     -
+  python     -
+  python2    -
+  python3    -
+  perl       -
+  lua        -
+  socat      -
+  telnet     -
+  ssh        -
+  sshd       -
+  dropbear   -
+--- sshd present? ---
+lrwxrwxrwx    1 root     root            13 Jan 16  2021 /usr/sbin/dropbear -> dropbearmulti
+
+/etc/init.d/:
+drwxr-xr-x    2 root     root          1024 Jan 16  2021 .
+drwxr-xr-x   24 root     root          3072 Jan  1  1970 ..
+-rwxr-xr-x    1 root     root           250 Jan 16  2021 alignment.sh
+-rwxr-xr-x    1 root     root           740 Jan 16  2021 avahi
+-rwxr-xr-x    1 root     root           492 Jan 16  2021 banner.sh
+-rwxr-xr-x    1 root     root          1763 Jan 16  2021 bitmainer_setup.sh
+-rwxr-xr-x    1 root     root          1529 Jan 16  2021 bootlogd
+-rwxr-xr-x    1 root     root          1584 Jan 16  2021 bootmisc.sh
+-rwxr-xr-x    1 root     root          6406 Jan 16  2021 cgminer.sh
+-rwxr-xr-x    1 root     root          4551 Jan 16  2021 cgminer.sh.bk
+-rwxr-xr-x    1 root     root          3229 Jan 16  2021 checkroot.sh
+-rwxr-xr-x    1 root     root           526 Jan 16  2021 devpts.sh
+-rwxr-xr-x    1 root     root          2990 Jan 16  2021 dropbear
+lrwxrwxrwx    1 root     root            33 Jan 16  2021 functions -> /etc/init.d/functions.initscripts
+-rwxr-xr-x    1 root     root          1408 Jan 16  2021 functions.initscripts
+-rwxr-xr-x    1 root     root           510 Jan 16  2021 halt
+-rwxr-xr-x    1 root     root           270 Jan 16  2021 hostname.sh
+-rwxr-xr-x    1 root     root           632 Jan 16  2021 lighttpd
+-rwxr-xr-x    1 root     root           646 Jan 16  2021 monitor-ipsig.sh
+-rwxr-xr-x    1 root     root          1639 Jan 16  2021 monitor-recobtn
+-rwxr-xr-x    1 root     root           859 Jan 16  2021 mountall.sh
+-rwxr-xr-x    1 root     root           310 Jan 16  2021 mountdevtmpfs.sh
+-rwxr-xr-x    1 root     root          1542 Jan 16  2021 mountnfs.sh
+-rwxr-xr-x    1 root     root          1150 Jan 16  2021 network.sh
+-rwxr-xr-x    1 root     root          1344 Jan 16  2021 ntpd
+-rwxr-xr-x    1 root     root            32 Jan 16  2021 ntpdate.sh
+-rwxr-xr-x    1 root     root          2692 Jan 16  2021 pgnand.sh
+-rwxr-xr-x    1 root     root          6347 Jan 16  2021 populate-volatile.sh
+-rwxr-xr-x    1 root     root          4305 Jan 16  2021 rc
+-rwxr-xr-x    1 root     root           525 Jan 16  2021 rcS
+-rwxr-xr-x    1 root     root           278 Jan 16  2021 read-only-rootfs-hook.sh
+-rwxr-xr-x    1 root     root           289 Jan 16  2021 reboot
+-rwxr-xr-x    1 root     root           585 Jan 16  2021 rmnologin.sh
+-rwxr-xr-x    1 root     root           321 Jan 16  2021 save-rtc.sh
+-rwxr-xr-x    1 root     root           438 Jan 16  2021 sendsigs
+-rwxr-xr-x    1 root     root           578 Jan 16  2021 single
+lrwxrwxrwx    1 root     root             8 Jan 16  2021 stop-bootlogd -> bootlogd
+-rwxr-xr-x    1 root     root           660 Jan 16  2021 sysfs.sh
+lrwxrwxrwx    1 root     root            26 Jan 16  2021 syslog -> /etc/init.d/syslog.busybox
+-rwxr-xr-x    1 root     root          1711 Jan 16  2021 syslog.busybox
+-rwxr-xr-x    1 root     root           516 Jan 16  2021 umountfs
+-rwxr-xr-x    1 root     root           711 Jan 16  2021 umountnfs.sh
+-rwxr-xr-x    1 root     root          1349 Jan 16  2021 urandom
+############ 6. compilers ############
+  gcc      -
+  cc       -
+  g++      -
+  make     -
+  cmake    -
+  ld       -
+  ar       -
+############ 7. storage & tmpfs ############
+Filesystem                Size      Used Available Use% Mounted on
+/dev/root                67.8M     37.5M     30.3M  55% /
+devtmpfs                105.8M         0    105.8M   0% /dev
+/dev/mtdblock7            8.0M    604.0K      7.4M   7% /config
+--- mounts ---
+/dev/root on / type ext4 (rw,relatime,block_validity,delalloc,barrier,user_xattr,acl)
+devtmpfs on /dev type devtmpfs (rw,relatime,size=108292k,nr_inodes=27073,mode=755)
+proc on /proc type proc (rw,relatime)
+sysfs on /sys type sysfs (rw,relatime)
+debugfs on /sys/kernel/debug type debugfs (rw,relatime)
+/dev/mtdblock7 on /config type jffs2 (rw,relatime)
+devpts on /dev/pts type devpts (rw,relatime,gid=5,mode=620,ptmxmode=000)
+--- block devices ---
+crw-------    1 root     root       90,   0 Jan  1  1970 /dev/mtd0
+crw-------    1 root     root       90,   1 Jan  1  1970 /dev/mtd0ro
+crw-------    1 root     root       90,   2 Jan  1  1970 /dev/mtd1
+crw-------    1 root     root       90,   3 Jan  1  1970 /dev/mtd1ro
+crw-------    1 root     root       90,   4 Jan  1  1970 /dev/mtd2
+crw-------    1 root     root       90,   5 Jan  1  1970 /dev/mtd2ro
+crw-------    1 root     root       90,   6 Jan  1  1970 /dev/mtd3
+crw-------    1 root     root       90,   7 Jan  1  1970 /dev/mtd3ro
+crw-------    1 root     root       90,   8 Jan  1  1970 /dev/mtd4
+crw-------    1 root     root       90,   9 Jan  1  1970 /dev/mtd4ro
+crw-------    1 root     root       90,  10 Jan  1  1970 /dev/mtd5
+crw-------    1 root     root       90,  11 Jan  1  1970 /dev/mtd5ro
+crw-------    1 root     root       90,  12 Jan  1  1970 /dev/mtd6
+crw-------    1 root     root       90,  13 Jan  1  1970 /dev/mtd6ro
+crw-------    1 root     root       90,  14 Jan  1  1970 /dev/mtd7
+crw-------    1 root     root       90,  15 Jan  1  1970 /dev/mtd7ro
+crw-------    1 root     root       90,  16 Jan  1  1970 /dev/mtd8
+crw-------    1 root     root       90,  17 Jan  1  1970 /dev/mtd8ro
+crw-------    1 root     root       90,  18 Jan  1  1970 /dev/mtd9
+crw-------    1 root     root       90,  19 Jan  1  1970 /dev/mtd9ro
+brw-------    1 root     root       31,   0 Jan  1  1970 /dev/mtdblock0
+brw-------    1 root     root       31,   1 Jan  1  1970 /dev/mtdblock1
+brw-------    1 root     root       31,   2 Jan  1  1970 /dev/mtdblock2
+brw-------    1 root     root       31,   3 Jan  1  1970 /dev/mtdblock3
+brw-------    1 root     root       31,   4 Jan  1  1970 /dev/mtdblock4
+brw-------    1 root     root       31,   5 Jan  1  1970 /dev/mtdblock5
+brw-------    1 root     root       31,   6 Jan  1  1970 /dev/mtdblock6
+brw-------    1 root     root       31,   7 Jan  1  1970 /dev/mtdblock7
+brw-------    1 root     root       31,   8 Jan  1  1970 /dev/mtdblock8
+brw-------    1 root     root       31,   9 Jan  1  1970 /dev/mtdblock9
+  no /dev/sd*
+--- /var/volatile ---
+Filesystem                Size      Used Available Use% Mounted on
+/dev/root                67.8M     37.5M     30.3M  55% /
+/dev/root                67.8M     37.5M     30.3M  55% /
+############ 8. USB / storage hotplug ############
+  no usb bus
+--- usb devices ---
+head: invalid option -- '3'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+--- dmesg usb/storage ---
+head: invalid option -- '2'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+############ 9. /usr/bin inventory ############
+139
+[
+[[
+a.out
+ar
+awk
+basename
+bunzip2
+bzcat
+cgminer
+cgminer-api
+chage
+chfn
+chfn.shadow
+chsh
+chsh.shadow
+chvt
+clear
+cmp
+compile_time
+curl
+cut
+dbclient
+dc
+ddcmon
+deallocvt
+decode-dimms
+decode-edid
+decode-vaio
+devmem2
+diff
+dirname
+dpkg-deb
+dtc
+du
+dumpleases
+env
+expiry
+expr
+factory_config_reset.sh
+faillog
+fdtdump
+fdtget
+fdtput
+find
+flock
+free
+fuser
+gpasswd
+groups
+groups.shadow
+head
+hexdump
+id
+id2mac
+killall
+last
+last.sysvinit
+lastb
+lastlog
+led-blink
+less
+logger
+logname
+lsb_release
+md5sum
+mesg
+mesg.sysvinit
+microcom
+miner-monitor
+mkfifo
+monitor-ipsig
+monitor-recobtn
+nc
+newgrp
+newgrp.shadow
+nohup
+nslookup
+ntpd
+ntpdate
+ntpdate-sync
+od
+openssl
+openvt
+opkg
+opkg-cl
+opkg-key
+passwd
+passwd.shadow
+patch
+perl
+perl5.14.3
+printf
+readlink
+realpath
+renice
+reset
+run-parts
+scp
+screen
+screen-4.0.3
+seq
+sg
+sha1sum
+sha256sum
+sort
+ssh
+stat
+strings
+stunnel
+stunnel3
+su
+tail
+tee
+telnet
+test
+tftp
+tickadj
+time
+top
+tr
+traceroute
+tty
+uniq
+unzip
+uptime
+users
+utmpdump
+utmpdump.sysvinit
+vlock
+wall
+wall.sysvinit
+watch
+wc
+wget
+which
+who
+whoami
+xargs
+yes
+############ DONE ############

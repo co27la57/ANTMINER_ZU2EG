@@ -1,0 +1,41 @@
+############ ARCHITECTURE TRUTH ############
+--- uname -m / uname -a ---
+aarch64
+Linux antMiner 4.9.0+ #5 SMP Thu Mar 21 04:23:19 PDT 2019 aarch64 GNU/Linux
+--- file type of /bin/busybox ---
+--- ELF header e_machine (offset 0x12, 2 bytes LE) ---
+od: invalid option -- 'A'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: od [-aBbcDdeFfHhIiLlOovXx] [FILE]
+
+  (0x28=ARM 0x3e=x86-64 0xb7=AArch64)
+--- /bin/sh ---
+lrwxrwxrwx    1 root     root            12 Jan 16  2021 /bin/sh -> /bin/busybox
+--- /usr/bin/curl ---
+--- /usr/bin/dtc ---
+--- /usr/bin/openssl ---
+--- cgminer ---
+--- /proc/version ---
+Linux version 4.9.0+ (fengping.shen@ubuntu) (gcc version 7.3.1 20180425 [linaro-7.3-2018.05 revision d29120a424ecfbc167ef90065c0eeb7f91977701] (Linaro GCC 7.3-2018.05) ) #5 SMP Thu Mar 21 04:23:19 PDT 2019
+############ ############
+--- all ELF arch histogram across /usr/bin + /usr/sbin + /bin ---
+    259 
+  (28=ARM 3e=x86-64 b7=AArch64)
+############ why uname says aarch64 but ELF is ARM? ############
+--- /proc/cpuinfo processor line ---
+processor	: 0
+--- kernel config CONFIG_COMPAT? ---
+CONFIG_ARM64=y
+CONFIG_ARM64_PAGE_SHIFT=12
+CONFIG_ARM64_CONT_SHIFT=4
+# CONFIG_COMPAT_BRK is not set
+CONFIG_COMPAT_OLD_SIGACTION=y
+CONFIG_ARM64_ERRATUM_826319=y
+CONFIG_ARM64_ERRATUM_827319=y
+CONFIG_ARM64_ERRATUM_824069=y
+CONFIG_ARM64_ERRATUM_819472=y
+CONFIG_ARM64_ERRATUM_832075=y
+--- readelf? ---
+--- QEMU present? (for running armhf on arm64) ---
+############ DONE ############

@@ -1,0 +1,124 @@
+############ 1. curl capabilities ############
+curl 7.29.0 (arm-angstrom-linux-gnueabi) libcurl/7.29.0 GnuTLS/2.12.23 zlib/1.2.7
+Protocols: dict file ftp ftps gopher http https imap imaps pop3 pop3s rtsp smtp smtps telnet tftp 
+Features: NTLM NTLM_WB SSL libz TLS-SRP 
+--- test plain HTTP to debian ---
+http://deb.debian.org -> 200
+--- test plain HTTP to archive.debian.org ---
+http://archive.debian.org -> 200
+--- test HTTP to ubuntu archive ---
+http://archive.ubuntu.com -> 200
+--- test HTTP to aliyun mirror ---
+http://mirrors.aliyun.com -> 200
+--- DNS ---
+Server:    114.114.114.114
+Address 1: 114.114.114.114 public1.114dns.com
+
+Name:      deb.debian.org
+Address 1: 146.75.122.132
+Address 2: 2a04:4e42:8e::644
+--- default route / gateway ---
+Iface	Destination	Gateway 	Flags	RefCnt	Use	Metric	Mask		MTU	Window	IRTT                                                       
+eth0	00000000	FE5719AC	0003	0	0	0	00000000	0	0	0                                                                               
+eth0	005019AC	00000000	0001	0	0	0	00F8FFFF	0	0	0                                                                               
+--- resolv.conf ---
+nameserver 114.114.114.114
+nameserver 221.11.132.2
+nameserver 221.176.88.95
+nameserver 221.138.164.6
+nameserver 202.100.192.68
+############ 2. does apt exist anywhere? ############
+  apt        no
+  apt-get    no
+  dpkg       no
+  dpkg-deb   yes
+  ar         yes
+--- dpkg-deb version ---
+/usr/bin/dpkg-deb: unrecognized option '--version'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+############ 3. fstab / persistent mount ############
+#rootfs               /                    auto       defaults              1  1
+proc                 /proc                proc       defaults              0  0
+devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
+#tmpfs                /tmp                 tmpfs      defaults              0  0
+/dev/mmcblk0p3       /config                auto       defaults,sync  0  0
+--- init.d/mountall.sh ---
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          mountall
+# Required-Start:    mountvirtfs
+# Required-Stop: 
+# Default-Start:     S
+# Default-Stop:
+# Short-Description: Mount all filesystems.
+# Description:
+### END INIT INFO
+
+. /etc/default/rcS
+
+#
+# Mount local filesystems in /etc/fstab. For some reason, people
+# might want to mount "proc" several times, and mount -v complains
+# about this. So we mount "proc" filesystems without -v.
+#
+test "$VERBOSE" != no && echo "Mounting local filesystems..."
+mount -at nonfs,nosmbfs,noncpfs 2>/dev/null
+
+#
+# We might have mounted something over /dev, see if /dev/initctl is there.
+#
+if test ! -p /dev/initctl
+then
+	rm -f /dev/initctl
+	mknod -m 600 /dev/initctl p
+fi
+kill -USR1 1
+
+#
+# Execute swapon command again, in case we want to swap to
+# a file on a now mounted filesystem.
+#
+swapon -a 2> /dev/null
+
+: exit 0
+
+############ 4. bind mount support test (needed for chroot) ############
+bind rc=0
+1
+10
+11
+--- mount -t tmpfs support ---
+tmpfs rc=0
+Filesystem                Size      Used Available Use% Mounted on
+tmpfs                     8.0M         0      8.0M   0% /var/volatile/tmp/tt
+############ 5. SD p2 detail + write speed ############
+Filesystem                Size      Used Available Use% Mounted on
+/dev/mmcblk0p2            4.9G      3.5M      4.6G   0% /mnt/sd2
+--- write 64MB test ---
+64+0 records in
+64+0 records out
+--- free space ---
+Filesystem                Size      Used Available Use% Mounted on
+/dev/mmcblk0p2            4.9G      3.5M      4.6G   0% /mnt/sd2
+############ 6. busybox features we will need ############
+  chroot   no
+  mount    no
+  umount   no
+  su       no
+  env      no
+  sh       no
+  tar      no
+  gzip     no
+  gunzip   no
+  xz       no
+  unxz     no
+  awk      no
+  sed      no
+  grep     no
+  cat      no
+  ln       no
+  cp       no
+  mkdir    no
+  chmod    no
+  chown    no
+############ DONE ############

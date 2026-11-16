@@ -1,0 +1,39 @@
+########## 1. BEFORE: mining processes ##########
+  [1902] SCREEN -S cgminer -t cgminer -m -d /usr/bin/cgminer --version-file /usr/bin/compile_time -D --api-listen --default-config /config/cgminer.conf -T --syslog --api-groups A:stats:pools:devs:summary:version --api-allow A:0/0,W:* 
+  [1903] /usr/bin/cgminer --version-file /usr/bin/compile_time -D --api-listen --default-config /config/cgminer.conf -T --syslog --api-groups A:stats:pools:devs:summary:version --api-allow A:0/0,W:* 
+  [1918] /bin/sh /sbin/monitorcg 
+
+########## 2. stop the watchdog FIRST (or it will restart cgminer in 20s) ##########
+  killing watchdog 1918: /bin/sh /sbin/monitorcg 
+
+########## 3. stop cgminer and its screen ##########
+  killing 1902: SCREEN -S cgminer -t cgminer -m -d /usr/bin/cgminer --version-file /usr/bin/compile_time -D --api-listen --default-config /config/cgminer.conf -T --syslog --api-groups A:stats:pools:devs:summary:version --api-allow A:0/0,W:* 
+
+########## 4. AFTER: verify no mining processes ##########
+  STILL RUNNING [4892] /bin/sh /sbin/monitorcg 
+
+########## 5. disable autostart (rename, reversible) ##########
+  renamed /etc/rcS.d/S70cgminer.sh -> /etc/rcS.d/S70cgminer.sh.disabled
+  renamed /etc/init.d/cgminer.sh -> /etc/init.d/cgminer.sh.disabled
+lrwxrwxrwx    1 root     root            20 Jan 16  2021 S70cgminer.sh.disabled -> ../init.d/cgminer.sh
+-rwxr-xr-x    1 root     root          4551 Jan 16  2021 cgminer.sh.bk
+-rwxr-xr-x    1 root     root          6406 Jan 16  2021 cgminer.sh.disabled
+
+########## 6. power down the ASIC (GPIO403/404) ##########
+--- current GPIO state ---
+  gpio403 direction=out value=1
+  gpio404 direction=out value=1
+  gpio408 direction=out value=1
+  gpio411 direction=out value=1
+--- turning off ASIC power (gpio404) and reset (gpio403) ---
+  gpio404 -> 0
+  gpio403 -> 0
+--- GPIO state after ---
+  gpio403 value=0
+  gpio404 value=0
+
+########## 7. CPU idle after stop (3s sample) ##########
+cpu  1122240 342 129621 13920482 68512 0 3825 0 0 0
+cpu  1122242 342 129622 13921680 68512 0 3825 0 0 0
+0.11 0.66 0.63 1/151 5274
+########## END ##########

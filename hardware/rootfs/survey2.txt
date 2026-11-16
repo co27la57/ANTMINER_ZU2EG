@@ -1,0 +1,276 @@
+############ A. real tool existence (ls-based) ############
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/opkg                EXISTS        16 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/opkg-cl             EXISTS     12664 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/curl                EXISTS    130056 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/wget                EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/perl                EXISTS        10 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/perl5.14.3          EXISTS      5940 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/tftp                EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/nc                  EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/screen              EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/unzip               EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/dpkg-deb            EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/patch               EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/ar                  EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/openssl             EXISTS    470332 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/stunnel             EXISTS    108288 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/md5sum              EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/sha256sum           EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/hexdump             EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/od                  EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/ssh                 EXISTS        23 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/scp                 EXISTS        23 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/telnet              EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/nc                  EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/curl                EXISTS    130056 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/lsb_release         EXISTS      1844 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/microcom            EXISTS        12 bytes  
+head: invalid option -- 'c'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+  /usr/bin/screen-4.0.3        EXISTS    296672 bytes  
+############ B. opkg usable? ############
+head: invalid option -- '3'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+--- opkg status count ---
+96
+--- installed packages (name + version) ---
+head: invalid option -- '1'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+############ C. opkg network reachability ############
+--- /etc/opkg/*.conf full ---
+arch all 1
+arch any 6
+arch noarch 11
+arch armv5hf-vfp 16
+arch armv5thf-vfp 21
+arch armv5ehf-vfp 26
+arch armv5tehf-vfp 31
+arch armv6hf-vfp 36
+arch armv6thf-vfp 41
+arch armv7ahf-vfp 46
+arch armv7at2hf-vfp 51
+arch armv7ahf-vfp-neon 56
+arch armv7at2hf-vfp-neon 61
+arch beaglebone 66
+drwxr-xr-x    2 root     root          1024 Jan 16  2021 .
+drwxr-xr-x   24 root     root          3072 Jan  1  1970 ..
+-rwxr-xr-x    1 root     root           279 Jan 16  2021 arch.conf
+--- try opkg update (short) ---
+head: invalid option -- '2'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+opkg update rc=1
+############ D. outbound network test ############
+--- DNS ---
+nameserver 114.114.114.114
+nameserver 221.11.132.2
+nameserver 221.176.88.95
+nameserver 221.138.164.6
+nameserver 202.100.192.68
+--- ping gateway 172.25.87.254 ---
+--- 172.25.87.254 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 1.889/2.039/2.189 ms
+--- ping our PC 172.25.87.141 ---
+--- 172.25.87.141 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 0.836/0.965/1.095 ms
+--- DNS resolve example.com ---
+head: invalid option -- '8'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+--- curl to example.com ---
+/tmp/survey2.sh: line 43: timeout: not found
+--- curl to deb.debian.org ---
+/tmp/survey2.sh: line 45: timeout: not found
+############ E. X server deep check ############
+--- search whole fs for X binaries ---
+head: invalid option -- '2'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+--- libX present? ---
+head: invalid option -- '2'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+--- drm/fb device nodes ---
+crw-------    1 root     root        4,   0 Jan  1  1970 /dev/tty0
+--- dmesg display ---
+head: invalid option -- '1'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+############ F. hardware / RAM detail ############
+head: invalid option -- '6'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+--- cpu ---
+head: invalid option -- '8'
+BusyBox v1.20.2 (2018-09-27 11:33:47 HKT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+--- nand ---
+dev:    size   erasesize  name
+mtd0: 00800000 00020000 "nand-fsbl-uboot"
+mtd1: 00800000 00020000 "nand-fsbl-uboot"
+mtd2: 00800000 00020000 "nand-fsbl-uboot"
+mtd3: 00200000 00020000 "nand-fsbl-reserve"
+mtd4: 01000000 00020000 "nand-linux-uimage"
+mtd5: 00100000 00020000 "device-tree"
+mtd6: 02000000 00020000 "nand-uramdisk-image"
+mtd7: 00800000 00020000 "nand-config"
+mtd8: 00d00000 00020000 "nand-reserve"
+mtd9: 02000000 00020000 "nand-uramdisk-bak"
+--- cpu usage / load ---
+0.07 0.02 0.00 1/116 6385
+############ DONE ############

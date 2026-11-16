@@ -1,0 +1,22 @@
+# Normalize line endings for text files in the repository.
+# Shell scripts MUST keep LF endings: they run on the ARM Linux board,
+# where a CRLF shebang (#!/bin/sh\r) makes the kernel fail to find /bin/sh.
+* text=auto eol=lf
+
+*.sh    text eol=lf
+*.py    text eol=lf
+*.dts   text eol=lf
+*.md    text eol=lf
+*.html  text eol=lf
+*.txt   text eol=lf
+*.ps1   text eol=lf
+*.log   text eol=lf
+
+# Binary files: never touch
+*.png   binary
+*.jpg   binary
+*.mp4   binary
+*.tar   binary
+*.dtb   binary
+*.gz    binary
+*.bin   binary

@@ -1,0 +1,83 @@
+############ A. busybox applets (real list) ############
+199 /tmp/bb.txt
+--- key applets ---
+  chroot: no
+  mount: no
+  umount: no
+  su: no
+  env: no
+  tar: no
+  gzip: no
+  gunzip: no
+  xz: no
+  unxz: no
+  awk: no
+  sed: no
+  grep: no
+  cat: no
+  ln: no
+  cp: no
+  mkdir: no
+  chmod: no
+  chown: no
+  dirname: no
+  basename: no
+  tar: no
+############ B. chroot actually works? ############
+--- is chroot a real binary or busybox applet? ---
+--- test chroot with a minimal armhf root ---
+/tmp/cr/bin/:
+drwxr-xr-x    2 root     root          1024 Nov 16 04:01 .
+drwxr-xr-x    5 root     root          1024 Nov 16 04:01 ..
+-rwxr-xr-x    1 root     root        532232 Nov 16 04:01 busybox
+
+/tmp/cr/lib/:
+drwxr-xr-x    2 root     root          1024 Nov 16 04:01 .
+drwxr-xr-x    5 root     root          1024 Nov 16 04:01 ..
+-rwxr-xr-x    1 root     root        130296 Nov 16 04:01 ld-linux-armhf.so.3
+-rwxr-xr-x    1 root     root       1197268 Nov 16 04:01 libc.so.6
+/tmp/prep2.sh: line 21: chroot: not found
+chroot rc=127
+############ C. real chroot syscall path ############
+--- busybox chroot applet present? ---
+  -> busybox lacks chroot
+############ D. ar / dpkg-deb usable for manual .deb extraction? ############
+--- ar test on a real deb (download tiny one) ---
+drwxr-xr-x    2 root     root          1024 Nov 16 04:01 .
+drwxrwxrwt    8 root     root          1024 Nov 16 04:01 ..
+-rw-r--r--    1 root     root           300 Nov 16 04:01 busybox-static_1.30.1-5+deb10u10_armhf.deb
+--- ar t ---
+ar: invalid ar magic
+--- dpkg-deb -x ---
+dpkg-deb: invalid ar magic
+drwxr-xr-x    2 root     root          1024 Nov 16 04:01 .
+drwxr-xr-x    3 root     root          1024 Nov 16 04:01 ..
+############ E. can we run the extracted armhf binary? ############
+/tmp/prep2.sh: line 44: /tmp/debtest/x/bin/busybox: not found
+rc=127
+############ F. memory headroom for X server ############
+MemTotal:         492532 kB
+MemFree:          349364 kB
+MemAvailable:     392604 kB
+Buffers:            1740 kB
+--- current biggest mem users ---
+  PID USER       VSZ STAT COMMAND
+    1 root      1656 S    init [5]
+    2 root         0 SW   [kthreadd]
+    3 root         0 SW   [ksoftirqd/0]
+    4 root         0 SW   [kworker/0:0]
+    5 root         0 SW<  [kworker/0:0H]
+    7 root         0 RW   [rcu_sched]
+    8 root         0 SW   [rcu_bh]
+    9 root         0 SW   [migration/0]
+   10 root         0 SW<  [lru-add-drain]
+   11 root         0 SW   [cpuhp/0]
+   12 root         0 SW   [cpuhp/1]
+   13 root         0 SW   [migration/1]
+   14 root         0 SW   [ksoftirqd/1]
+   16 root         0 SW<  [kworker/1:0H]
+############ G. check if Debian buster armhf has xfce4 packages ############
+--- Packages index reachable? ---
+buster Packages.gz -> 000
+--- does buster armhf exist (non-free?) ---
+############ DONE ############

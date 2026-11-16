@@ -1,0 +1,64 @@
+########## 1. cgminer config ##########
+{
+"pools" : [
+{
+"url" : "stratum+tcp://192.168.100.102:8028",
+"user" : "e7etc.104x27",
+"pass" : ""
+},
+{
+"url" : "stratum+tcp://192.168.100.102:8028",
+"user" : "e7etc.104x27",
+"pass" : ""
+},
+{
+"url" : "stratum+tcp://192.168.100.102:8028",
+"user" : "e7etc.104x27",
+"pass" : ""
+}
+]
+}
+
+########## 2. API port listening? ##########
+  (netstat unavailable or no 4028)
+--- /proc/net/tcp for port 4028 (0FB2) ---
+
+########## 3. query API using chroot python3 ##########
+=== summary === ERROR [Errno 111] Connection refused
+=== pools === ERROR [Errno 111] Connection refused
+=== devs === ERROR [Errno 111] Connection refused
+=== stats === ERROR [Errno 111] Connection refused
+
+########## 4. raw /dev/bm_* ioctl via strings on cgminer ##########
+--- temperature-related strings in cgminer binary ---
+load_temp_cutoffs
+Invalid parameters for set temp cutoff
+Invalid value passed to set temp cutoff
+Attempting to restart %s
+Retrieving block template from pool %s
+echo "pool %d's removed!">>/tmp/fanstatus
+echo "pool %d's queue return NULL work!">>/tmp/fanstatus
+echo "pool %d'scommunication resumed, submitting work!">>/tmp/fanstatus
+%s: Attempting to restart
+echo "pool %d is restarted and pool->removed is %d">>/tmp/fanstatus
+Too many values passed to set temp cutoff
+echo "No Antminer pools are configured, please configure the right pools">>/tmp/fanstatus
+echo "No pools are configured, please configure the pools">>/tmp/fanstatus
+--hotplug
+Attempting to negotiate with %s:%s SOCKS5 proxy
+Hotplug
+temp
+*Dev Thermal Cutoff
+Device reached thermal cutoff
+hotplug
+Invalid value for hotplug (%s) must be 0..9999
+Hotplug check set to %ds
+Hotplug disabled
+Hotplug is not available
+Missing hotplug parameter
+_FanCtrl
+fan_num
+fan%d
+temp_num
+temp_remote_%d
+########## END ##########

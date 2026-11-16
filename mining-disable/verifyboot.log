@@ -1,0 +1,28 @@
+########## 1. all possible mining autostart entries ##########
+--- inittab ---
+44:#dcdc:2345:respawn:/sbin/monitorcg  # DISABLED: mining watchdog
+--- /etc/rcS.d ---
+S70cgminer.sh.disabled
+--- /etc/rc?.d ---
+S70cgminer.sh.disabled
+  in /etc/rcS.d
+--- crontab ---
+  none
+
+########## 2. disabled files (recovery is easy) ##########
+-rwxr-xr-x    1 root     root          6406 Jan 16  2021 /etc/init.d/cgminer.sh.disabled
+-rwxr-xr-x    1 root     root          1149 Nov 16 15:03 /etc/inittab.bak
+lrwxrwxrwx    1 root     root            26 Jan 16  2021 /etc/rcS.d/S100monitor-ipsig.sh.disabled -> ../init.d/monitor-ipsig.sh
+lrwxrwxrwx    1 root     root            20 Jan 16  2021 /etc/rcS.d/S70cgminer.sh.disabled -> ../init.d/cgminer.sh
+lrwxrwxrwx    1 root     root            25 Jan 16  2021 /etc/rcS.d/S70monitor-recobtn.disabled -> ../init.d/monitor-recobtn
+-rwxr-xr-x    1 root     root           194 Jan 16  2021 /sbin/monitorcg.disabled
+
+########## 3. GPIO state (ASIC power off) ##########
+  gpio403 = 0
+  gpio404 = 0
+  gpio408 = 0
+  gpio411 = 0
+
+########## 4. current mining processes ##########
+  none
+########## END ##########
