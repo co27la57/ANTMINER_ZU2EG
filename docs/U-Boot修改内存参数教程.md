@@ -168,28 +168,60 @@ grep MemTotal /proc/meminfo    # 应接近 1024 MB（约 1000 MB 左右）
 free -m
 ```
 
-### 第 7 步：确认无误后永久保存
+### 第 7 步：永久保存 —— ⚠️ 实测踩坑
 
-如果第 6 步成功：
+**2026-11-17 实测发现**：这块板的 U-Boot 环境变量**不存 NAND**，
+而是配置成 `CONFIG_ENV_IS_IN_FAT`，存在 **SD 卡 mmc 0:1 的 FAT 分区**里。
+直接 `saveenv` 会失败：
 
 ```sh
-# 重启回 U-Boot（断电或 reboot）
-# 再次 setenv（上一步改的没 saveenv，重启会丢）
+ZynqMP> saveenv
+Saving Environment to FAT...
+** Unable to use mmc 0:1 for saveenv **
+```
+
+**原因**：SD 卡被格式化成了 **ext4**（chroot 在上面），没有 FAT 分区，
+所以 U-Boot 写不进 env。这也解释了为什么 NAND 里搜到的 bootargs 一直是
+496M —— 那是**编译进 U-Boot 的默认 env**，每次启动时 U-Boot 读不到 FAT env，
+就回退到默认值。原厂卡应该是 FAT 格式，env 才能正常保存。
+
+#### 方案 A：接受手动（最简单，实测可用）
+
+每次重启进 U-Boot 敲一遍（约 10 秒）：
+
+```sh
 setenv bootargs 'earlycon clk_ignore_unused mem=1024M console=ttyPS0,115200 ramdisk_size=33554432 root=/dev/ram rw earlyprintk'
-
-# 保存到 NAND
-saveenv
+boot
 ```
 
-输出应类似：
+不持久化，但零风险。适合开发调试。
 
-```
-Saving Environment to NAND...
-Erasing NAND...
-Writing to NAND... done
+#### 方案 B：重分区让 saveenv 生效（一劳永逸）
+
+把 SD 卡改成两个分区：`p1 = 32MB FAT`（给 U-Boot env）、`p2 = 剩余 ext4`（放 chroot）。
+
+```sh
+# 在电脑上操作（板子无 fdisk/mkfs 工具）：
+# 1. 先把现有 chroot 备份出来（约 886MB）
+# 2. 重新分区：p1 FAT32 32MB，p2 ext4 剩余
+# 3. chroot 恢复到 p2
+# 4. 修改 start_desktop.sh 里的挂载点为 /dev/mmcblk0p2
+# 5. U-Boot 里 setenv + saveenv，应显示 "Saving Environment to FAT... done"
 ```
 
-再 `boot` 启动，确认 `cat /proc/cmdline` 仍是 `mem=1024M`。
+风险：迁移 chroot 过程中若断电可能丢数据。**建议先完整备份**。
+
+#### 方案 C：二进制 patch（不推荐）
+
+直接改 NAND 里 U-Boot 默认 env 的 `mem=496M` 字符串。无 JTAG，刷错即砖。
+
+---
+
+#### 实测结果（2026-11-17）
+
+- `setenv` + `boot` 后：`/proc/cmdline` 显示 `mem=1024M`，
+  `MemTotal: 1019092 kB`（≈995MB）—— **方案 A 已验证成功** ✅
+- `saveenv` 因 FAT 分区缺失失败 —— **需要方案 B 才能持久化**
 
 ---
 
@@ -226,11 +258,14 @@ devmem2 0x30000000          # 已验证返回 0x57F5389E
 |---|---|
 | 串口 | CH340 USB-TTY，115200 8N1，1.8V LVCMOS18 |
 | U-Boot 分区 | mtd0/1/2 `nand-fsbl-uboot`（3 份 8MB 冗余）|
-| 环境变量位置 | `bootargs` 在 mtd1/mtd2 各 4 处匹配 |
+| 环境变量真实位置 | **SD 卡 mmc 0:1 的 FAT 文件**（`CONFIG_ENV_IS_IN_FAT`），非 NAND |
+| NAND 里的 bootargs | 是编译进 U-Boot 的**默认 env**（读不到 FAT env 时回退用）|
 | 原 bootargs | `earlycon clk_ignore_unused mem=496M console=ttyPS0,115200 ramdisk_size=33554432 root=/dev/ram rw earlyprintk` |
 | 物理内存 | 4 × MT41K128M16 = 1GB（DTS 声明 0x40000000）|
 | 高位访问验证 | `devmem2 0x30000000` = `0x57F5389E` ✓ |
-| 状态 | 教程已验证路径，**实际修改待用户执行**（避免无 JTAG 时变砖）|
+| **修改结果** | `setenv mem=1024M` + `boot` → `MemTotal: 1019092 kB` ✅ 成功 |
+| **持久化状态** | `saveenv` 失败（`Unable to use mmc 0:1`）—— SD 卡是 ext4 无 FAT 分区 |
+| 结论 | 临时改内存 ✅ 已验证；永久保存需重分区建 FAT（方案 B）|
 
 ---
 
