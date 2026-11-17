@@ -15,6 +15,8 @@
 ## 关键结论速查
 
 - **SoC**：Xilinx ZynqMP (4× Cortex-A53)，64 位内核 + armhf 兼容用户态
+- **DDR**：4 × Micron MT41K128M16（FBGA `D9PTK`）= DDR3L-1600 2Gb x16，共 **1GB**
+  （非 DDR4！Vivado 工程里配 DDR4 会导致冷启动失败；内核 `mem=496M` 把它限制到一半）
 - **UART0**：TX = MIO31，RX = MIO30（电平 LVCMOS18 / 1.8V）
 - **UART1**：TX = MIO32，RX = MIO33
 - **Ethernet2 RGMII**：MIO50-59（LVCMOS33 / 3.3V）

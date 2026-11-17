@@ -185,17 +185,35 @@ https://cdn.jsdelivr.net/gh/aloyak/badapple@master/video/badapple.mp4
 ├── mining-disable/                    ← 挖矿进程排查与关闭（脚本 + 原始日志）
 ├── scripts/                           ← 通用工具（二进制流传输、RFB 截图客户端）
 └── screenshots/                       ← 最终桌面 / 浏览器截图集
+
+docs/U-Boot修改内存参数教程.md         ← 串口进 U-Boot 放开 1GB 内存
 ```
+
+## 内存真相：物理 1GB，被 `mem=496M` 砍半
+
+板上有 **4 颗 Micron MT41K128M16（FBGA `D9PTK`）**，是 **DDR3L**（非 DDR4）、
+每颗 2Gb = 256MB、x16 位宽。四颗组成 64-bit 总线接在 PS DDR 控制器上，
+**物理容量 1GB**（设备树 `memory@0` 声明 `0x40000000`）。
+
+但 U-Boot 的 `bootargs` 里有 `mem=496M`，内核只用了 496MB：
+```
+/proc/cmdline: ... mem=496M console=ttyPS0,115200 root=/dev/ram rw ...
+```
+实测 `devmem2 0x30000000`（768MB 处）能读到有效数据，证明高位物理内存完好。
+
+完整分析与三种修改方案见 [`docs/U-Boot修改内存参数教程.md`](docs/U-Boot修改内存参数教程.md)。
 
 ## 硬件参数速查
 
 ```
 CPU      4× ARM Cortex-A53 (ARMv8, NEON/ASIMD), Xilinx Zynq UltraScale+ MP
-RAM      492 MB (MemTotal), 无 swap
-Flash    67.8 MB (/dev/root)
-SD       8 GB ext4, chroot 根目录 684 MB
+RAM      物理 1GB (4×256MB DDR3L)，内核参数限制为 496MB，无 swap
+Flash    NAND 128MB: mtd0-2 FSBL+U-Boot(3份冗余), mtd4 uImage,
+         mtd5 DTB, mtd6/mtd9 uramdisk, mtd7 config(JFFS2)
+根文件系统 原厂从 NAND 恢复，/etc /sbin 修改不持久；持久存储只有 /config 和 SD 卡
+SD       8 GB ext4, chroot 根目录约 886 MB
 Kernel   4.9.0+ SMP aarch64, CONFIG_COMPAT (armhf 兼容)
-网络     eth0, DHCP, MAC 归属比特大陆
+网络     1× 千兆 eth0 (GEM2, MIO50-59), DHCP
 显示     无 /dev/fb0, 无 HDMI → Xvfb 虚拟帧缓冲
 温度     内核不导出 thermal/hwmon 节点
 ```
